@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Nectar</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="Logo Design Nectar" class="logo">
+        <h1>Design Nectar</h1>
+        <p>Moda y estilo para todos</p>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#mujer">Mujer</a></li>
+            <li><a href="#hombre">Hombre</a></li>
+            <li><a href="#accesorios">Accesorios</a></li>
+            <li><a href="#descuentos">Descuentos</a></li>
+            <li><a href="#proveedores">Proveedores</a></li>
+            <li><a href="#registro">Registro</a></li>
+            <li><a href="#carrito">Carrito</a></li>
+            <li><a href="#admin">Administrador</a></li>
+        </ul>
+    </nav>
+    <section id="descuentos">
+        <h2>Ofertas y Descuentos</h2>
+        <p>🔴 <strong>15% de descuento</strong> en compras desde <strong>$200,000 COP</strong> 🔴</p>
+        <p>🔥 <strong>20% de descuento</strong> en compras desde <strong>$500,000 COP</strong> 🔥</p>
+    </section>
+    <section id="mujer">
+        <h2>Ropa para Mujer</h2>
+        <div class="producto">
+            <img src="imagenes/blusa.jpg" alt="Blusa Mujer">
+            <h3>Blusa Roja</h3>
+            <p class="precio-final">$50,000 COP (impuestos y envío incluidos)</p>
+            <p class="stock">Stock disponible</p>
+            <label for="cantidad-blusa">Cantidad:</label>
+            <input type="number" id="cantidad-blusa" value="1" min="1">
+            <button onclick="agregarAlCarrito('Blusa Roja', 50000, 'cantidad-blusa')">Comprar</button>
+        </div>
+    </section>
+    <section id="admin" class="admin-section">
+        <h2>Panel de Administrador</h2>
+        <h3>Calculadora de Precios</h3>
+        <form id="precio-form">
+            <label for="costo-materiales">Costo de materiales (COP):</label>
+            <input type="number" id="costo-materiales" required>
+            <label for="mano-obra">Mano de obra (COP):</label>
+            <input type="number" id="mano-obra" required>
+            <label for="impuestos">Porcentaje de impuestos (%):</label>
+            <input type="number" id="impuestos" required>
+            <label for="ganancia">Margen de ganancia (%):</label>
+            <input type="number" id="ganancia" required>
+            <label for="envio">Costo de envío (COP):</label>
+            <input type="number" id="envio" required>
+            <button type="button" onclick="calcularPrecio()">Calcular Precio</button>
+        </form>
+        <p><strong>Precio sugerido:</strong> <span id="precio-sugerido">$0 COP</span></p>
+    </section>
+    <section id="registro">
+        <h2>Registro de Usuarios</h2>
+        <form>
+            <input type="text" placeholder="Nombre" required>
+            <input type="email" placeholder="Correo electrónico" required>
+            <input type="password" placeholder="Contraseña" required>
+            <button type="submit">Registrarse</button>
+        </form>
+    </section>
+    <section id="carrito">
+        <h2>Carrito de Compras</h2>
+        <ul id="lista-carrito"></ul>
+        <p><strong>Subtotal:</strong> <span id="subtotal">$0 COP</span></p>
+        <p><strong>Descuento aplicado:</strong> <span id="descuento-aplicado">$0 COP</span></p>
+        <p><strong>Total a pagar:</strong> <span id="total">$0 COP</span></p>
+    </section>
+    <footer>
+        <p>Opciones de pago: Visa, Mastercard, Maestro, Payoneer.</p>
+        <p>Conversión automática de moneda según el país del usuario.</p>
+        <p>Protección contra robo de contenido.</p>
+        <p>Actualmente alojado en GitHub Pages. Opción para cambiar a un dominio personalizado .co en el futuro.</p>
+    </footer>
+    <script>
+        function calcularPrecio() {
+            let materiales = parseFloat(document.getElementById("costo-materiales").value);
+            let manoObra = parseFloat(document.getElementById("mano-obra").value);
+            let impuestos = parseFloat(document.getElementById("impuestos").value) / 100;
+            let ganancia = parseFloat(document.getElementById("ganancia").value) / 100;
+            let envio = parseFloat(document.getElementById("envio").value);
+            
+            let costoTotal = materiales + manoObra + envio;
+            let precioFinal = costoTotal + (costoTotal * impuestos) + (costoTotal * ganancia);
+            
+            document.getElementById("precio-sugerido").innerText = `$${precioFinal.toFixed(0)} COP`;
+        }
+    </script>
+</body>
+</html>
