@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Nectar - Tu Tienda Virtual</title>
+    <link rel="stylesheet" href="/tienda-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- WebGL y Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FBXLoader.js"></script>
+</head>
+<body>
+    <!-- Encabezado -->
+    <header>
+        <div class="logo-container">
+            <img src="/imagenes/logo.png" alt="Design Nectar Logo" id="main-logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#catalogo">Catálogo</a></li>
+                <li><a href="#carrito">Carrito</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Sección de Bienvenida -->
+    <section class="bienvenida-section" id="inicio">
+        <div class="bienvenida-container">
+            <h2>Bienvenido a Design Nectar</h2>
+            <p>Tu destino para encontrar las últimas tendencias en moda y diseño. En Design Nectar, creemos que cada persona es única y merece expresar su individualidad a través de la moda.</p>
+            
+            <h3>¿Por qué elegirnos?</h3>
+            <p>Somos más que una tienda de ropa. Somos un espacio donde la creatividad y la moda se fusionan para crear experiencias únicas. Nuestro compromiso es ofrecerte productos de alta calidad que no solo se vean bien, sino que también te hagan sentir bien.</p>
+            
+            <h3>Nuestras características</h3>
+            <ul>
+                <li>Productos exclusivos y de alta calidad</li>
+                <li>Envío rápido y seguro</li>
+                <li>Política de devolución flexible</li>
+                <li>Atención al cliente personalizada</li>
+                <li>Actualizaciones constantes de nuestro catálogo</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Sección de Eva -->
+    <section id="eva-section">
+        <button id="activate-eva" class="eva-button">
+            <i class="fas fa-robot"></i> Activar Eva
+        </button>
+        <div id="eva-container"></div>
+        <audio id="eva-audio" src="/audio/bienvenida.mp3"></audio>
+    </section>
+
+    <!-- Mensaje Promocional -->
+    <div class="promo-banner">
+        <div class="promo-content">
+            <h2>¡Hazlo aún más emocionante! 🎉</h2>
+            <p>Aprovecha un 20% de descuento en el total de tu compra por montos superiores a $550.000. Al visitar nuestra tienda y explorar nuestras prendas, te espera una sorpresa que hará de tu experiencia algo único e inolvidable.</p>
+            <p>Descubre el estilo que te define y la innovación que te mereces. 🛍️</p>
+            <p>¡Compra ahora y vive la experiencia Design Nectar!</p>
+            <button id="applyDiscount" class="discount-btn">
+                🎁 ¡Dale clic al botón de abajo y reclama tu 20% de descuento ahora! 🚀
+            </button>
+        </div>
+    </div>
+
+    <!-- Sección de características físicas -->
+    <section id="physical-info" class="section">
+        <h2>Características Físicas</h2>
+        <div class="form-group">
+            <label for="estatura">Estatura (cm):</label>
+            <select id="estatura" class="form-control">
+                <option value="">Selecciona tu estatura</option>
+                <option value="140">140 cm</option>
+                <option value="141">141 cm</option>
+                <option value="142">142 cm</option>
+                <option value="143">143 cm</option>
+                <option value="144">144 cm</option>
+                <option value="145">145 cm</option>
+                <!-- ... más opciones ... -->
+                <option value="190">190 cm</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="peso">Peso (kg):</label>
+            <select id="peso" class="form-control">
+                <option value="">Selecciona tu peso</option>
+                <option value="40">40 kg</option>
+                <option value="41">41 kg</option>
+                <option value="42">42 kg</option>
+                <!-- ... más opciones ... -->
+                <option value="100">100 kg</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="edad">Edad:</label>
+            <select id="edad" class="form-control">
+                <option value="">Selecciona tu edad</option>
+                <option value="18">18 años</option>
+                <option value="19">19 años</option>
+                <option value="20">20 años</option>
+                <!-- ... más opciones ... -->
+                <option value="70">70 años</option>
+            </select>
+        </div>
+
+        <div class="info-display">
+            <p>Clima actual: <span id="clima-actual">-</span></p>
+            <p>Estación: <span id="estacion-actual">-</span></p>
+            <p>Tela recomendada: <span id="tela-recomendada">-</span></p>
+            <p>Tallas recomendadas: <span id="tallas-recomendadas">-</span></p>
+        </div>
+    </section>
+
+    <!-- Sección de Avatar 3D -->
+    <section id="avatar-section" class="avatar-section">
+        <h2>Tu Avatar 3D</h2>
+        <div class="avatar-upload-container">
+            <div class="upload-instructions">
+                <p>Sube tu foto frontal completa o de medio cuerpo para crear tu avatar 3D</p>
+                <div class="upload-area" id="upload-area">
+                    <input type="file" id="photo-upload" accept="image/*" class="hidden">
+                    <button class="upload-btn" onclick="document.getElementById('photo-upload').click()">
+                        <i class="fas fa-camera"></i>
+                        Sube tu foto aquí
+                    </button>
+                </div>
+                <div class="preview-container hidden" id="preview-container">
+                    <img id="photo-preview" src="" alt="Preview">
+                    <button class="generate-avatar-btn" id="generate-avatar-btn">
+                        Generar Avatar 3D
+                    </button>
+                </div>
+            </div>
+            <div class="avatar-viewer-container">
+                <div id="avatar-viewer"></div>
+                <div class="avatar-controls">
+                    <button class="control-btn" id="rotate-left">
+                        <i class="fas fa-undo"></i>
+                    </button>
+                    <button class="control-btn" id="rotate-right">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                    <button class="control-btn" id="zoom-in">
+                        <i class="fas fa-search-plus"></i>
+                    </button>
+                    <button class="control-btn" id="zoom-out">
+                        <i class="fas fa-search-minus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Catálogo -->
+    <section id="catalog" class="catalog-section">
+        <div class="catalog-filters">
+            <button class="category-btn active" data-category="hombre">Hombre</button>
+            <button class="category-btn" data-category="mujer">Mujer</button>
+            <button class="category-btn" data-category="nino">Niño</button>
+            <button class="category-btn" data-category="nina">Niña</button>
+            <button class="category-btn" data-category="mascota">Mascota</button>
+            <button class="category-btn" data-category="accesorios">Accesorios</button>
+        </div>
+
+        <div class="category-content" id="hombre-content">
+            <h2>Ropa para Hombre</h2>
+            <p>Encuentra las últimas tendencias en moda masculina.</p>
+            <div class="products-grid"></div>
+        </div>
+
+        <div class="category-content" id="mujer-content">
+            <h2>Ropa para Mujer</h2>
+            <p>Descubre nuestra colección de moda femenina.</p>
+            <div class="products-grid"></div>
+        </div>
+
+        <!-- Contenido similar para otras categorías -->
+    </section>
+
+    <!-- Carrito de compras -->
+    <section id="shopping-cart" class="cart-section">
+        <h2>Carrito de Compras</h2>
+        <div id="cart-items"></div>
+        <div id="cart-summary">
+            <p>Subtotal: <span id="cart-subtotal">$0.00</span></p>
+            <p>Descuento: <span id="cart-discount">$0.00</span></p>
+            <p>Total: <span id="cart-total">$0.00</span></p>
+        </div>
+        <button id="checkout-btn" class="btn-primary">Proceder al pago</button>
+    </section>
+
+    <!-- Seguimiento de pedido -->
+    <section id="order-tracking" class="tracking-section">
+        <h2>Seguimiento de Pedido</h2>
+        <div id="qr-container"></div>
+        <div id="tracking-status">
+            <div class="status-step">
+                <i class="fas fa-check-circle"></i>
+                <span>Confirmado</span>
+            </div>
+            <div class="status-step">
+                <i class="fas fa-box"></i>
+                <span>En preparación</span>
+            </div>
+            <div class="status-step">
+                <i class="fas fa-truck"></i>
+                <span>En tránsito</span>
+            </div>
+            <div class="status-step">
+                <i class="fas fa-home"></i>
+                <span>Entregado</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sistema de calificaciones -->
+    <section class="rating-system">
+        <h2>Califica tu experiencia</h2>
+        <div class="rating-buttons">
+            <button class="rating-btn" data-rating="1">😢</button>
+            <button class="rating-btn" data-rating="2">😐</button>
+            <button class="rating-btn" data-rating="3">🙂</button>
+            <button class="rating-btn" data-rating="4">😊</button>
+            <button class="rating-btn" data-rating="5">🤩</button>
+        </div>
+        <div class="rating-stats">
+            <div class="average-rating">
+                <span class="rating-value">0.0</span>
+                <div class="rating-stars">★★★★★</div>
+            </div>
+            <div class="rating-count">
+                <span class="count">0</span> calificaciones
+            </div>
+        </div>
+    </section>
+
+    <!-- Compartición en redes sociales -->
+    <section class="social-share-section">
+        <h3>¡Comparte tu opinión!</h3>
+        <div class="share-emoji-container">
+            <div class="share-emoji" data-type="love">❤️</div>
+            <div class="share-emoji" data-type="laugh">😂</div>
+            <div class="share-emoji" data-type="wow">😮</div>
+            <div class="share-emoji" data-type="cool">😎</div>
+        </div>
+        <div class="share-buttons">
+            <button class="share-btn facebook">
+                <i class="fab fa-facebook"></i>
+                Compartir en Facebook
+            </button>
+            <button class="share-btn twitter">
+                <i class="fab fa-twitter"></i>
+                Compartir en Twitter
+            </button>
+            <button class="share-btn whatsapp">
+                <i class="fab fa-whatsapp"></i>
+                Compartir en WhatsApp
+            </button>
+        </div>
+    </section>
+
+    <!-- Sección Sobre Nosotros -->
+    <section class="nosotros-section" id="nosotros">
+        <div class="nosotros-container">
+            <h2>Sobre Nosotros</h2>
+            <p>Design Nectar nació de la pasión por la moda y el diseño. Nuestro objetivo es brindar a nuestros clientes una experiencia de compra única, donde la calidad y el estilo se encuentran.</p>
+        </div>
+    </section>
+
+    <!-- Sección de Contacto -->
+    <section class="contacto-section" id="contacto">
+        <div class="contacto-container">
+            <h2>Contáctanos</h2>
+            <form id="contacto-form">
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="mensaje">Mensaje:</label>
+                    <textarea id="mensaje" name="mensaje" required></textarea>
+                </div>
+                <button type="submit">Enviar Mensaje</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 Design Nectar. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/tienda-script.js"></script>
+    <script src="/eva-model.js"></script>
+    <script src="/eva-voice.js"></script>
+    <script src="/photo-to-3d.js"></script>
+    <script src="/facial-analysis.js"></script>
+    <script src="/fbx-loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+    <!-- Canvas para efectos de confeti -->
+    <canvas id="confetti-canvas"></canvas>
+</body>
+</html> 
